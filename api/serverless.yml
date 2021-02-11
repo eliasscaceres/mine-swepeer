@@ -1,0 +1,35 @@
+# TBD
+
+
+functions:
+  create:
+    handler: services/create.create
+    events:
+      - http:
+          path: services
+          method: post
+          cors: true
+
+  list:
+    handler: services/list.list
+    events:
+      - http:
+          path: services
+          method: get
+          cors: true
+        
+  get:
+    handler: services/get.get
+    events:
+      - http:
+          path: services/{id}
+          method: get
+          cors: true
+        
+  update:
+    handler: services/update.update
+    events:
+      - http:
+          path: todos/{id}
+          method: put
+          cors: true        
