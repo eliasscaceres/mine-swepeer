@@ -1,21 +1,18 @@
-import { create } from '../../models/game';
+import generateMove from '../../controllers/moves';
 import { createResponse } from '../../helpers/utils';
 import maskBoard from '../../controllers/maskBoard';
-
 /* POST start a new game */
 
-const postGame = async (event) => {
+const handler = async (event) => {
   try {
-    const { name, size, mines } = (event.body && JSON.parse(event.body)) || {};
-
+    const { gameId, row, col, value } =
+      (event.body && JSON.parse(event.body)) || {};
     // add validations
-    if (!name && (!size || !mines)) {
+    if (!gameId || row < 0 || col < 0) {
       return createResponse(400, 'Invalid parameters');
     }
-    const game = await create(name, size, mines);
-
+    const game = await generateMove(row, col, gameId, value);
     game.board = maskBoard(game.board);
-
     return createResponse(200, game);
   } catch (error) {
     console.error(error);
@@ -24,4 +21,4 @@ const postGame = async (event) => {
 };
 
 // eslint-disable-next-line import/prefer-default-export
-export { postGame };
+export { handler };

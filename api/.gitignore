@@ -62,3 +62,5 @@ typings/
 
 # Generated Cloudformation and Lambda Zip file
 .serverless
+
+.webpack

@@ -1,35 +1,53 @@
 # TBD
+service: mine-sweeper-api
 
+plugins:
+  - serverless-webpack
+  - serverless-offline
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-east-2
+environment:
+  AWS_BUCKET: 'bucket-project-minesweeper'
 
 functions:
-  create:
-    handler: services/create.create
+  createGame:
+    handler: services/game/post.postGame
     events:
       - http:
-          path: services
+          path: game
           method: post
           cors: true
+  getGame:
+    handler: services/game/get.handler
+    events:
+      - http:
+          path: game
+          method: get
+          cors: true
 
-  list:
-    handler: services/list.list
+  executeMovement:
+    handler: services/moves/post.handler
     events:
       - http:
-          path: services
-          method: get
+          path: moves
+          method: post
           cors: true
         
-  get:
-    handler: services/get.get
-    events:
-      - http:
-          path: services/{id}
-          method: get
-          cors: true
+  # get:
+  #   handler: services/get.get
+  #   events:
+  #     - http:
+  #         path: services/{id}
+  #         method: get
+  #         cors: true
         
-  update:
-    handler: services/update.update
-    events:
-      - http:
-          path: todos/{id}
-          method: put
-          cors: true        
+  # update:
+  #   handler: services/update.update
+  #   events:
+  #     - http:
+  #         path: todos/{id}
+  #         method: put
+  #         cors: true        
