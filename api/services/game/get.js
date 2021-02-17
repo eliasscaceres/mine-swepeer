@@ -1,7 +1,9 @@
 import { getAll } from '../../models/game';
 import { createResponse } from '../../helpers/utils';
-/* get game */
 
+/**
+ * functions to get all the games in the database.
+ */
 const handler = async () => {
   try {
     const games = await getAll();

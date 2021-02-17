@@ -4,6 +4,9 @@ const MONGODB_URI =
   'mongodb+srv://admin:admin1234@cluster0.xxs7x.mongodb.net/<testing>?retryWrites=true&w=majority';
 let dbInstance = null;
 
+/**
+ * connect to the database
+ */
 const connect = async () => {
   if (dbInstance) {
     return Promise.resolve(dbInstance);
@@ -16,18 +19,29 @@ const connect = async () => {
   return dbInstance;
 };
 
+/**
+ * get and specific object by ID
+ * @param {String} id  id of the required object
+ */
 const getById = async (id) => {
   const db = await connect();
   const game = await db.collection('mines').findOne(new ObjectID(id));
   return game;
 };
 
+/**
+ * save obj into the database
+ * @param {Object} obj
+ */
 const save = async (obj) => {
   const db = await connect();
   const { ops: inserted } = await db.collection('mines').insertOne(obj);
   return inserted[0];
 };
 
+/**
+ * get all games with minimal structure
+ */
 const getAllSimplified = async () => {
   const db = await connect();
 
@@ -39,6 +53,10 @@ const getAllSimplified = async () => {
   return ids;
 };
 
+/**
+ * Remove object from the database
+ * @param {String} id Object ID
+ */
 const remove = async (id) => {
   const db = await connect();
   const deletedGame = await db
@@ -47,6 +65,10 @@ const remove = async (id) => {
   return deletedGame;
 };
 
+/**
+ * Get mimal information from specific game
+ * @param {String} id
+ */
 const getSimplifiedGame = async (id) => {
   const db = await connect();
   const parsedGame = await db

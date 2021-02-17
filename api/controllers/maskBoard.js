@@ -1,6 +1,9 @@
 import dotProp from 'dot-prop-immutable';
 import { boardEnum } from '../constants/enum';
-
+/**
+ * Mask a board to be sent to the client.
+ * @param {Array} board board to be masked
+ */
 const maskBoard = (board = []) => {
   return board.reduce((acc, row, idx) => {
     const maskedRow = row.map((value) => {

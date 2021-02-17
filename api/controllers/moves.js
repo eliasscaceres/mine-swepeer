@@ -91,7 +91,13 @@ const markPosition = (row, col, board, mark) => {
   return dotProp.set(board, [row, col], mark);
 };
 
-// changing gameId PER BOARD
+/**
+ * Execute a new move.
+ * @param {Number} row board cant rows
+ * @param {Number} col board cant columns
+ * @param {String} gameId game's id
+ * @param {Object} [value] flag or question
+ */
 const generateMove = async (row, col, gameId, value) => {
   const game = await getById(gameId);
   const cell = _.get(game.board, [row, col]);

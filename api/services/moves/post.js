@@ -1,8 +1,11 @@
 import generateMove from '../../controllers/moves';
 import { createResponse } from '../../helpers/utils';
 import maskBoard from '../../controllers/maskBoard';
-/* POST start a new game */
 
+/**
+ * function te execute a move in a board.
+ * @param {Object} event contains the request parameters.
+ */
 const handler = async (event) => {
   try {
     const { gameId, row, col, value } =

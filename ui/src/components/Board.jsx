@@ -5,13 +5,7 @@ const Board = ({ height, width, mines }) => {
   const [boardData, setBoardData] = useState(
     Array.from({ length: height }, (v, i) =>
       Array.from({ length: width }, (v, i) => ({
-        // x: i,
-        // y: i,
-        // isMine: false,
-        // neighbour: 0,
-        // isRevealed: false,
-        // isEmpty: false,
-        // isFlagged: false,
+ 
       }))
     )
   );
@@ -79,166 +73,93 @@ const Board = ({ height, width, mines }) => {
 
   // Gets initial board data
   const initBoardData =async () => {
-    // let data = createEmptyArray(height, width);
-    // console.log(boardData);
+
     const { board } = await createGame({ name:"intermediate" } );
     console.log(result);
-    // plantMines(height, width, mineCount);
-    // getNeighbours(height, width);
+ 
     setBoardData(board);
     setIsSet(true);
     console.log(isSet);
     // return data;
   };
 
-  const createEmptyArray = (height, width) => {
-    let data = [];
+ 
+  // // looks for neighbouring cells and returns them
+  // const traverseBoard = (x, y, data) => {
+  //   const el = [];
 
-    for (let i = 0; i < height; i++) {
-      data.push([]);
-      for (let j = 0; j < width; j++) {
-        data[i][j] = {
-          x: i,
-          y: j,
-          isMine: false,
-          neighbour: 0,
-          isRevealed: false,
-          isEmpty: false,
-          isFlagged: false,
-        };
-      }
-    }
-    return data;
-  };
+  //   //up
+  //   if (x > 0) {
+  //     el.push(data[x - 1][y]);
+  //   }
 
-  // plant mines on the board
-  const plantMines = (height, width, mines) => {
-    let randomx,
-      randomy,
-      minesPlanted = 0;
-    let data = boardData;
+  //   //down
+  //   if (x < height - 1) {
+  //     el.push(data[x + 1][y]);
+  //   }
 
-    while (minesPlanted < mines) {
-      randomx = getRandomNumber(width);
-      randomy = getRandomNumber(height);
-      if (!data[randomx][randomy].isMine) {
-        data[randomx][randomy].isMine = true;
-        minesPlanted++;
-      }
-    }
-    data[0][0].isMine = true;
-    console.log(data);
+  //   //left
+  //   if (y > 0) {
+  //     el.push(data[x][y - 1]);
+  //   }
 
-    setBoardData([...data]);
-  };
+  //   //right
+  //   if (y < width - 1) {
+  //     el.push(data[x][y + 1]);
+  //   }
 
-  // get number of neighbouring mines for each board cell
-  const getNeighbours = (height, width) => {
-    let updatedData = data,
-      index = 0;
-    let data = boardData;
-    // console.log(data);
-    for (let i = 0; i < height; i++) {
-      for (let j = 0; j < width; j++) {
-        data[i][j].x = i;
-        data[i][j].y = j;
+  //   // top left
+  //   if (x > 0 && y > 0) {
+  //     el.push(data[x - 1][y - 1]);
+  //   }
 
-        if (data[i][j].isMine !== true) {
-          let mine = 0;
-          const area = traverseBoard(data[i][j].x, data[i][j].y, data);
-          area.map((value) => {
-            if (value.isMine) {
-              mine++;
-            }
-          });
-          if (mine === 0) {
-            data[i][j].isEmpty = true;
-          }
-          data[i][j].neighbour = mine;
-        }
-      }
-    }
-    console.log(data);
+  //   // top right
+  //   if (x > 0 && y < width - 1) {
+  //     el.push(data[x - 1][y + 1]);
+  //   }
 
-    setBoardData([...data]);
-  };
+  //   // bottom right
+  //   if (x < height - 1 && y < width - 1) {
+  //     el.push(data[x + 1][y + 1]);
+  //   }
 
-  // looks for neighbouring cells and returns them
-  const traverseBoard = (x, y, data) => {
-    const el = [];
+  //   // bottom left
+  //   if (x < height - 1 && y > 0) {
+  //     el.push(data[x + 1][y - 1]);
+  //   }
 
-    //up
-    if (x > 0) {
-      el.push(data[x - 1][y]);
-    }
+  //   return el;
+  // };
 
-    //down
-    if (x < height - 1) {
-      el.push(data[x + 1][y]);
-    }
+  // // reveals the whole board
+  // const revealBoard = () => {
+  //   let updatedData = boardData;
+  //   updatedData.map((datarow) => {
+  //     datarow.map((dataitem) => {
+  //       dataitem.isRevealed = true;
+  //     });
+  //   });
+  //   setBoardData([...updatedData]);
+  // };
 
-    //left
-    if (y > 0) {
-      el.push(data[x][y - 1]);
-    }
-
-    //right
-    if (y < width - 1) {
-      el.push(data[x][y + 1]);
-    }
-
-    // top left
-    if (x > 0 && y > 0) {
-      el.push(data[x - 1][y - 1]);
-    }
-
-    // top right
-    if (x > 0 && y < width - 1) {
-      el.push(data[x - 1][y + 1]);
-    }
-
-    // bottom right
-    if (x < height - 1 && y < width - 1) {
-      el.push(data[x + 1][y + 1]);
-    }
-
-    // bottom left
-    if (x < height - 1 && y > 0) {
-      el.push(data[x + 1][y - 1]);
-    }
-
-    return el;
-  };
-
-  // reveals the whole board
-  const revealBoard = () => {
-    let updatedData = boardData;
-    updatedData.map((datarow) => {
-      datarow.map((dataitem) => {
-        dataitem.isRevealed = true;
-      });
-    });
-    setBoardData([...updatedData]);
-  };
-
-  /* reveal logic for empty cell */
-  const revealEmpty = (x, y, data) => {
-    c
-    let area = traverseBoard(x, y, data);
-    area.map((value) => {
-      if (
-        !value.isFlagged &&
-        !value.isRevealed &&
-        (value.isEmpty || !value.isMine)
-      ) {
-        data[value.x][value.y].isRevealed = true;
-        if (value.isEmpty) {
-          revealEmpty(value.x, value.y, data);
-        }
-      }
-    });
-    return data;
-  };
+  // /* reveal logic for empty cell */
+  // const revealEmpty = (x, y, data) => {
+  //   c
+  //   let area = traverseBoard(x, y, data);
+  //   area.map((value) => {
+  //     if (
+  //       !value.isFlagged &&
+  //       !value.isRevealed &&
+  //       (value.isEmpty || !value.isMine)
+  //     ) {
+  //       data[value.x][value.y].isRevealed = true;
+  //       if (value.isEmpty) {
+  //         revealEmpty(value.x, value.y, data);
+  //       }
+  //     }
+  //   });
+  //   return data;
+  // };
 
   // Handle User Events
 

@@ -1,3 +1,8 @@
+/**
+ * function to create a new response
+ * @param {Number} statusCode
+ * @param {String} message
+ */
 const createResponse = (statusCode, message) => ({
   statusCode,
   headers: {
